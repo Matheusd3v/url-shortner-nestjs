@@ -1,0 +1,20 @@
+pre-commit:
+  jobs:
+    - name: "Execução do ESLint ❗"
+      run: npx eslint --fix {staged_files}
+      glob:
+        - "*.ts"
+        - "*.js"
+      stage_fixed: true
+
+    - name: "Execução do Prettier ✨"
+      run: npx prettier --write {staged_files}
+      glob:
+        - "*.ts"
+        - "*.js"
+      stage_fixed: true
+
+commit-msg:
+  commands:
+    Validação de commit 📃:
+      run: npx commitlint --edit {1}
