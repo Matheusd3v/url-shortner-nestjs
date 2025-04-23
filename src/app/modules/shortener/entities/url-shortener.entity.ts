@@ -4,6 +4,7 @@ export class UrlShortenerEntity extends CommonEntity {
     private url: string;
     private code: string;
     private userId: number | null;
+    private clicks: number;
 
     public setUrl(url: string) {
         this.url = url;
@@ -17,6 +18,10 @@ export class UrlShortenerEntity extends CommonEntity {
         this.userId = id;
     }
 
+    public setClicks(value: number) {
+        this.clicks = value;
+    }
+
     public getUrl(): string {
         return this.url;
     }
@@ -27,6 +32,10 @@ export class UrlShortenerEntity extends CommonEntity {
 
     public getUserId(): number | null {
         return this.userId;
+    }
+
+    public getClicks(): number {
+        return this.clicks;
     }
 
     static generateShortCode(length = 6) {
