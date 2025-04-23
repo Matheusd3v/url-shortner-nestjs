@@ -17,7 +17,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "NODE_OPTIONS=--no-warnings jest --config ./test/jest-e2e.json -w 2",
+    "test:e2e": "NODE_OPTIONS=--no-warnings jest --config ./test/jest-e2e.json -w 2 --verbose",
     "migration:create": "npx prisma migrate dev --create-only --name",
     "migration:deploy": "npx prisma migrate deploy",
     "prisma:generate": "npx prisma generate"
@@ -46,6 +46,7 @@
     "@commitlint/config-conventional": "^19.8.0",
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.18.0",
+    "@faker-js/faker": "^9.7.0",
     "@nestjs/cli": "^11.0.0",
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^11.0.1",
