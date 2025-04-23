@@ -5,39 +5,36 @@ import { execSync } from 'node:child_process';
 
 config({ path: '.env.test', override: true });
 
-const prisma = new PrismaClient();
-
 jest.setTimeout(60000);
 
-function generateUniqueDatabaseURL(schemaId: string) {
-    if (!process.env.DATABASE_URL) {
-        throw new Error('Please provider a DATABASE_URL environment variable');
-    }
-
-    const url = new URL(process.env.DATABASE_URL);
-
-    url.searchParams.set('schema', schemaId);
-
-    return url.toString();
-}
-const schemaId = randomUUID();
-
-beforeAll(() => {
-    const databaseURL = generateUniqueDatabaseURL(schemaId);
-
-    process.env.DATABASE_URL = databaseURL;
-
-    execSync('npm run migration:deploy', {
-        env: {
-            ...process.env,
-            DATABASE_URL: process.env.DATABASE_URL,
+const adminPrisma = new PrismaClient({
+    datasources: {
+        db: {
+            url: process.env.DATABASE_URL?.replace(/\/[^/]*$/, '/postgres'),
         },
+    },
+});
+
+beforeAll(async () => {
+    const dbName = `test_${randomUUID().replace(/-/g, '_')}`;
+    await adminPrisma.$executeRawUnsafe(`CREATE DATABASE ${dbName}`);
+    process.env.DATABASE_URL = process.env.DATABASE_URL?.replace(
+        /\/[^/]*$/,
+        `/${dbName}`,
+    );
+
+    execSync('npx prisma migrate deploy', {
+        env: { ...process.env },
     });
-}, 60000);
+});
 
 afterAll(async () => {
-    await prisma.$executeRawUnsafe(
-        `DROP SCHEMA IF EXISTS "${schemaId}" CASCADE`,
-    );
-    await prisma.$disconnect();
-}, 60000);
+    const dbName = process.env.DATABASE_URL?.split('/').pop();
+    await adminPrisma.$executeRawUnsafe(`
+      SELECT pg_terminate_backend(pid) 
+      FROM pg_stat_activity 
+      WHERE datname = '${dbName}'
+    `);
+    await adminPrisma.$executeRawUnsafe(`DROP DATABASE IF EXISTS ${dbName}`);
+    await adminPrisma.$disconnect();
+});
