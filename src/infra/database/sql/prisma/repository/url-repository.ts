@@ -6,18 +6,22 @@ import { UrlEntity } from '@modules/shortener/entities/url-shortener.entity';
 import { UrlRepository } from '@modules/shortener/repositories/url.repository';
 import { UrlMapper } from '../mappers/url.mapper';
 import { UrlPrismaBuilder } from '../builder/url.builder';
+import { PrismaClient } from '@root/generated/prisma/client';
 
 @Injectable()
 export class UrlPostgresqlRepository implements UrlRepository {
     constructor(
-        private readonly prismaService: TransactionHost<TransactionalAdapterPrisma>,
+        private readonly prismaService: TransactionHost<
+            TransactionalAdapterPrisma<PrismaClient>
+        >,
     ) {}
 
     public async save(entity: UrlEntity): Promise<UrlEntity> {
         const saved = await this.prismaService.tx.url.create({
             data: {
-                url: entity.getUrl(),
+                userId: entity.getUserId(),
                 code: entity.getCode(),
+                url: entity.getUrl(),
             },
         });
 
