@@ -41,16 +41,24 @@ export class UrlPostgresqlRepository implements UrlRepository {
     }
 
     public async findOne(args: IFindOptionsUrlDto): Promise<UrlEntity | null> {
+        const { where } = UrlPrismaBuilder.build(args);
         const url = await this.prismaService.tx.url.findFirst({
-            ...UrlPrismaBuilder.build(args),
+            where: {
+                ...where,
+                deletedAt: null,
+            },
         });
         if (!url) return null;
         return UrlMapper.fromDB(url);
     }
 
     public async findAll(args?: IFindOptionsUrlDto): Promise<UrlEntity[]> {
+        const { where } = UrlPrismaBuilder.build(args);
         const urls = await this.prismaService.tx.url.findMany({
-            ...UrlPrismaBuilder.build(args),
+            where: {
+                ...where,
+                deletedAt: null,
+            },
         });
         if (!urls) return [];
         return urls.map((url) => UrlMapper.fromDB(url));
