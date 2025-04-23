@@ -6,4 +6,5 @@ export interface UrlRepository {
     findOne(args: IFindOptionsUrlDto): Promise<UrlEntity | null>;
     findAll(args?: IFindOptionsUrlDto): Promise<UrlEntity[]>;
     update(entity: UrlEntity): Promise<void>;
+    bulkInsert(entities: UrlEntity[]): Promise<void>;
 }

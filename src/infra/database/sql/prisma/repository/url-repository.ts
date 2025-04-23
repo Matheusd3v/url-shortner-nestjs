@@ -16,6 +16,18 @@ export class UrlPostgresqlRepository implements UrlRepository {
         >,
     ) {}
 
+    public async bulkInsert(entities: UrlEntity[]): Promise<void> {
+        await this.prismaService.tx.url.createMany({
+            data: entities.map((url) => {
+                return {
+                    userId: url.getUserId(),
+                    code: url.getCode(),
+                    url: url.getUrl(),
+                };
+            }),
+        });
+    }
+
     public async save(entity: UrlEntity): Promise<UrlEntity> {
         const saved = await this.prismaService.tx.url.create({
             data: {
