@@ -13,5 +13,15 @@
 		"^@modules/(.*)$": "<rootDir>/src/app/modules/$1/",
 		"^@shared/(.*)$": "<rootDir>/src/app/shared/$1/",
     "^@infra/(.*)$": "<rootDir>/src/infra/$1/"
-	}
+	},
+	"setupFilesAfterEnv": ["<rootDir>/test/post-setup.ts"],
+	"collectCoverageFrom": [
+		"src/**/*.ts"
+	],
+	"coveragePathIgnorePatterns": [
+		"/node_modules/",
+		"test",
+		"src/infra/database/in-memory"
+	]
+
 }
