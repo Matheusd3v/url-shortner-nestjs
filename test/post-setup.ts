@@ -13,6 +13,8 @@ function generateUniqueDatabaseURL(schemaId: string) {
     if (!process.env.DATABASE_URL) {
         throw new Error('Please provider a DATABASE_URL environment variable');
     }
+    const timestamp = Date.now();
+    process.env.DATABASE_URL = `postgresql://postgres:postgres@localhost:5432/test_${timestamp}?schema=public`;
 
     const url = new URL(process.env.DATABASE_URL);
 
@@ -30,7 +32,7 @@ beforeAll(() => {
     execSync('npm run migration:deploy', {
         env: {
             ...process.env,
-            DATABASE_URL: process.env.DATABASE_URL, // ensure it's passed down
+            DATABASE_URL: process.env.DATABASE_URL,
         },
     });
 }, 60000);
