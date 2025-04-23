@@ -8,6 +8,9 @@ import { ClsModule } from 'nestjs-cls';
 import { PrismaModule } from './infra/database/sql/prisma/prisma.module';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 import { PrismaPGService } from './infra/database/sql/prisma/prisma-pg.service';
+import { SecurityModule } from './infra/security/security.module';
+import { UserModule } from './app/modules/users/user.module';
+import { AuthModule } from './app/modules/auth/auth.module';
 
 @Module({
     imports: [
@@ -26,6 +29,9 @@ import { PrismaPGService } from './infra/database/sql/prisma/prisma-pg.service';
             ],
         }),
         ShortenerModule,
+        SecurityModule,
+        UserModule,
+        AuthModule,
     ],
     controllers: [AppController],
     providers: [AppService],
