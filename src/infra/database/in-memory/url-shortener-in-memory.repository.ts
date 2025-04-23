@@ -21,6 +21,10 @@ export class UrlShortenerInMemoryRepository implements UrlRepository {
         this.lastId = 0;
     }
 
+    public bulkInsert(): Promise<void> {
+        throw new Error('Method not implemented.');
+    }
+
     public async update(entity: UrlEntity): Promise<void> {
         await Promise.resolve(() => {
             const index = this.database.findIndex(

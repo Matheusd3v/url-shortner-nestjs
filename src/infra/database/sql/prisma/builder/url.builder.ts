@@ -19,6 +19,10 @@ export class UrlPrismaBuilder {
             where.uuid = dto.where.uuid;
         }
 
+        if (dto.where.userId) {
+            where.userId = dto.where.userId;
+        }
+
         return { where };
     }
 }

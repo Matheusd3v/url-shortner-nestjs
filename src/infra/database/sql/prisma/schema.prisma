@@ -20,9 +20,24 @@ model Url {
   url         String      @db.VarChar(1000)
   code        String      @unique() @db.VarChar(6)
   clicks      Int         @default(0)
+  userId      Int?        @map("user_id")
+  user        User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt   DateTime    @default(now()) @map("created_at")
   updatedAt   DateTime    @updatedAt @map("updated_at")
   deletedAt   DateTime?   @map("deleted_at")
 
   @@map("urls")
+}
+
+model User {
+  id          Int         @id @default(autoincrement())
+  uuid        String      @unique() @default(uuid()) @db.Uuid()
+  email       String      @unique() @db.VarChar(255)
+  password    String      @unique() @db.VarChar()
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+  deletedAt   DateTime?   @map("deleted_at")
+  urls        Url[]
+
+  @@map("users")
 }

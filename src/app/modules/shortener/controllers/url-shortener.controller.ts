@@ -6,6 +6,7 @@ import {
     Param,
     Post,
     Res,
+    UseGuards,
 } from '@nestjs/common';
 import { ShortenUrlRequestDto } from '../dtos/shorten-url-request.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -13,6 +14,9 @@ import { ShortedUrlResponseDto } from '../dtos/shorted-url-response.dto';
 import { ShortenUrlUsecase } from '../usecases/shorten-url.usecase';
 import { FindOriginalUrlUseCase } from '../usecases/find-original-url.usecase';
 import { Response } from 'express';
+import { OptionalJwtAuthGuard } from '../../auth/guards/optional-jwt-auth.guard';
+import { GetUserAuth } from '@shared/decorators/user-auth.decorator';
+import { UserEntity } from '../../users/entities/user.entity';
 
 @ApiTags('Url Shortener')
 @Controller()
@@ -23,14 +27,20 @@ export class UrlShortenerController {
     ) {}
 
     @Post('/shorten')
+    @UseGuards(OptionalJwtAuthGuard)
     @ApiResponse({
         status: HttpStatus.CREATED,
         type: ShortedUrlResponseDto,
     })
     async shortenUrl(
         @Body() body: ShortenUrlRequestDto,
+        @GetUserAuth() user?: UserEntity,
     ): Promise<ShortedUrlResponseDto> {
-        return this.shortenUrlUseCase.execute(body);
+        const userId = user ? user.getId() : null;
+        return this.shortenUrlUseCase.execute({
+            ...body,
+            userId,
+        });
     }
 
     @Get('/:code')
