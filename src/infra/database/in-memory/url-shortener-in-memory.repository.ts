@@ -2,18 +2,18 @@
 import { Injectable } from '@nestjs/common';
 import { IUrlShortenerRepository } from '@modules/shortener/repositories/url-shortener.repository';
 import { IFindOptionsUrlShortenerDto } from '@modules/shortener/dtos/find-options.dto';
-import { UrlShortenerEntity } from '@modules/shortener/entities/url-shortener.entity';
+import { UrlEntity } from '@modules/shortener/entities/url-shortener.entity';
 import { randomUUID } from 'crypto';
 
 @Injectable()
 export class UrlShortenerInMemoryRepository implements IUrlShortenerRepository {
     private lastId: number;
-    private database: UrlShortenerEntity[];
+    private database: UrlEntity[];
     private readonly getterMap = {
-        id: (entity: UrlShortenerEntity) => entity.getId(),
-        code: (entity: UrlShortenerEntity) => entity.getCode(),
-        uuid: (entity: UrlShortenerEntity) => entity.getUuid(),
-        userId: (entity: UrlShortenerEntity) => entity.getUserId(),
+        id: (entity: UrlEntity) => entity.getId(),
+        code: (entity: UrlEntity) => entity.getCode(),
+        uuid: (entity: UrlEntity) => entity.getUuid(),
+        userId: (entity: UrlEntity) => entity.getUserId(),
     };
 
     constructor() {
@@ -21,7 +21,7 @@ export class UrlShortenerInMemoryRepository implements IUrlShortenerRepository {
         this.lastId = 0;
     }
 
-    public async update(entity: UrlShortenerEntity): Promise<void> {
+    public async update(entity: UrlEntity): Promise<void> {
         await Promise.resolve(() => {
             const index = this.database.findIndex(
                 (e) => e.getId() === entity.getId(),
@@ -33,7 +33,7 @@ export class UrlShortenerInMemoryRepository implements IUrlShortenerRepository {
         });
     }
 
-    public async save(entity: UrlShortenerEntity): Promise<UrlShortenerEntity> {
+    public async save(entity: UrlEntity): Promise<UrlEntity> {
         entity.setId(this.getNewId());
         entity.setUuid(randomUUID());
         entity.setCreatedAt(new Date());
@@ -45,7 +45,7 @@ export class UrlShortenerInMemoryRepository implements IUrlShortenerRepository {
 
     public async findOne(
         args: IFindOptionsUrlShortenerDto,
-    ): Promise<UrlShortenerEntity | null> {
+    ): Promise<UrlEntity | null> {
         if (!args.where) return null;
         const fields = Object.entries(args?.where);
 
@@ -60,7 +60,7 @@ export class UrlShortenerInMemoryRepository implements IUrlShortenerRepository {
 
     public async findAll(
         args?: IFindOptionsUrlShortenerDto,
-    ): Promise<UrlShortenerEntity[]> {
+    ): Promise<UrlEntity[]> {
         if (!args?.where) return this.database;
         const fields = Object.entries(args?.where);
 

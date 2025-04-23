@@ -7,7 +7,7 @@ import {
 import { IUrlShortenerRepository } from '../repositories/url-shortener.repository';
 import { ShortenUrlRequestDto } from '../dtos/shorten-url-request.dto';
 import { UrlShortenerTransformer } from '../transformer/url-shortener.transformer';
-import { UrlShortenerEntity } from '../entities/url-shortener.entity';
+import { UrlEntity } from '../entities/url-shortener.entity';
 import { ShortedUrlResponseDto } from '../dtos/shorted-url-response.dto';
 import { ConfigService } from '@nestjs/config';
 
@@ -43,7 +43,7 @@ export class ShortenUrlUsecase {
         let attempts = 0;
 
         while (attempts < maxAttempts) {
-            const shortCode = UrlShortenerEntity.generateShortCode();
+            const shortCode = UrlEntity.generateShortCode();
             const existingUrl = await this.urlShortenerRepository.findOne({
                 where: {
                     code: shortCode,

@@ -1,11 +1,9 @@
 import { IFindOptionsUrlShortenerDto } from '../dtos/find-options.dto';
-import { UrlShortenerEntity } from '../entities/url-shortener.entity';
+import { UrlEntity } from '../entities/url-shortener.entity';
 
 export interface IUrlShortenerRepository {
-    save(entity: UrlShortenerEntity): Promise<UrlShortenerEntity>;
-    findOne(
-        args: IFindOptionsUrlShortenerDto,
-    ): Promise<UrlShortenerEntity | null>;
-    findAll(args?: IFindOptionsUrlShortenerDto): Promise<UrlShortenerEntity[]>;
-    update(entity: UrlShortenerEntity): Promise<void>;
+    save(entity: UrlEntity): Promise<UrlEntity>;
+    findOne(args: IFindOptionsUrlShortenerDto): Promise<UrlEntity | null>;
+    findAll(args?: IFindOptionsUrlShortenerDto): Promise<UrlEntity[]>;
+    update(entity: UrlEntity): Promise<void>;
 }

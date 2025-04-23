@@ -1,6 +1,6 @@
 import { CommonEntity } from '@shared/classes/common-entity';
 
-export class UrlShortenerEntity extends CommonEntity {
+export class UrlEntity extends CommonEntity {
     private url: string;
     private code: string;
     private userId: number | null;
