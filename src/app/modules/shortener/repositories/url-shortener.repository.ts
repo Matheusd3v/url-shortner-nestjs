@@ -7,4 +7,5 @@ export interface IUrlShortenerRepository {
         args: IFindOptionsUrlShortenerDto,
     ): Promise<UrlShortenerEntity | null>;
     findAll(args?: IFindOptionsUrlShortenerDto): Promise<UrlShortenerEntity[]>;
+    update(entity: UrlShortenerEntity): Promise<void>;
 }

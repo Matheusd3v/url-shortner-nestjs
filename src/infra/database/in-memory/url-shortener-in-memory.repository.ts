@@ -7,14 +7,31 @@ import { randomUUID } from 'crypto';
 
 @Injectable()
 export class UrlShortenerInMemoryRepository implements IUrlShortenerRepository {
-    private lastId: number = 0;
-    private database: UrlShortenerEntity[] = [];
+    private lastId: number;
+    private database: UrlShortenerEntity[];
     private readonly getterMap = {
         id: (entity: UrlShortenerEntity) => entity.getId(),
         code: (entity: UrlShortenerEntity) => entity.getCode(),
         uuid: (entity: UrlShortenerEntity) => entity.getUuid(),
         userId: (entity: UrlShortenerEntity) => entity.getUserId(),
     };
+
+    constructor() {
+        this.database = [];
+        this.lastId = 0;
+    }
+
+    public async update(entity: UrlShortenerEntity): Promise<void> {
+        await Promise.resolve(() => {
+            const index = this.database.findIndex(
+                (e) => e.getId() === entity.getId(),
+            );
+            if (index !== -1) {
+                entity.setUpdatedAt(new Date());
+                this.database[index] = entity;
+            }
+        });
+    }
 
     public async save(entity: UrlShortenerEntity): Promise<UrlShortenerEntity> {
         entity.setId(this.getNewId());
