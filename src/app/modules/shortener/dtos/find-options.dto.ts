@@ -1,10 +1,10 @@
-interface UrlShortenerWhereOptions {
+interface UrlWhereOptions {
     id?: number;
     code?: string;
     uuid?: string;
     userId?: number;
 }
 
-export interface IFindOptionsUrlShortenerDto {
-    where?: Partial<UrlShortenerWhereOptions>;
+export interface IFindOptionsUrlDto {
+    where?: Partial<UrlWhereOptions>;
 }

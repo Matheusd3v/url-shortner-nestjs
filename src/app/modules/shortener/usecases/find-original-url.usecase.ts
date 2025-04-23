@@ -1,15 +1,15 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
-import { IUrlShortenerRepository } from '../repositories/url-shortener.repository';
+import { UrlRepository } from '../repositories/url.repository';
 
 @Injectable()
 export class FindOriginalUrlUseCase {
     constructor(
-        @Inject('IUrlShortenerRepository')
-        private readonly urlShortenerRepository: IUrlShortenerRepository,
+        @Inject('UrlRepository')
+        private readonly urlRepository: UrlRepository,
     ) {}
 
     public async execute(code: string) {
-        const shortener = await this.urlShortenerRepository.findOne({
+        const shortener = await this.urlRepository.findOne({
             where: {
                 code,
             },
@@ -21,7 +21,7 @@ export class FindOriginalUrlUseCase {
 
         shortener.setClicks(shortener.getClicks() + 1);
 
-        await this.urlShortenerRepository.update(shortener);
+        await this.urlRepository.update(shortener);
 
         return { url: shortener.getUrl() };
     }

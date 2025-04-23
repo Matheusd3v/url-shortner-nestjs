@@ -8,7 +8,7 @@ import { FindOriginalUrlUseCase } from './usecases/find-original-url.usecase';
     controllers: [UrlShortenerController],
     providers: [
         {
-            provide: 'IUrlShortenerRepository',
+            provide: 'UrlRepository',
             useClass: UrlShortenerInMemoryRepository,
         },
         ShortenUrlUsecase,

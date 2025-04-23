@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Injectable } from '@nestjs/common';
-import { IUrlShortenerRepository } from '@modules/shortener/repositories/url-shortener.repository';
-import { IFindOptionsUrlShortenerDto } from '@modules/shortener/dtos/find-options.dto';
+import { UrlRepository } from '@root/src/app/modules/shortener/repositories/url.repository';
+import { IFindOptionsUrlDto } from '@modules/shortener/dtos/find-options.dto';
 import { UrlEntity } from '@modules/shortener/entities/url-shortener.entity';
 import { randomUUID } from 'crypto';
 
 @Injectable()
-export class UrlShortenerInMemoryRepository implements IUrlShortenerRepository {
+export class UrlShortenerInMemoryRepository implements UrlRepository {
     private lastId: number;
     private database: UrlEntity[];
     private readonly getterMap = {
@@ -43,9 +43,7 @@ export class UrlShortenerInMemoryRepository implements IUrlShortenerRepository {
         return Promise.resolve(entity);
     }
 
-    public async findOne(
-        args: IFindOptionsUrlShortenerDto,
-    ): Promise<UrlEntity | null> {
+    public async findOne(args: IFindOptionsUrlDto): Promise<UrlEntity | null> {
         if (!args.where) return null;
         const fields = Object.entries(args?.where);
 
@@ -58,9 +56,7 @@ export class UrlShortenerInMemoryRepository implements IUrlShortenerRepository {
         );
     }
 
-    public async findAll(
-        args?: IFindOptionsUrlShortenerDto,
-    ): Promise<UrlEntity[]> {
+    public async findAll(args?: IFindOptionsUrlDto): Promise<UrlEntity[]> {
         if (!args?.where) return this.database;
         const fields = Object.entries(args?.where);
 

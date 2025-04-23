@@ -4,7 +4,7 @@ import {
     NotFoundException,
     ServiceUnavailableException,
 } from '@nestjs/common';
-import { IUrlShortenerRepository } from '../repositories/url-shortener.repository';
+import { UrlRepository } from '../repositories/url.repository';
 import { ShortenUrlRequestDto } from '../dtos/shorten-url-request.dto';
 import { UrlShortenerTransformer } from '../transformer/url-shortener.transformer';
 import { UrlEntity } from '../entities/url-shortener.entity';
@@ -14,8 +14,8 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class ShortenUrlUsecase {
     constructor(
-        @Inject('IUrlShortenerRepository')
-        private readonly urlShortenerRepository: IUrlShortenerRepository,
+        @Inject('UrlRepository')
+        private readonly urlRepository: UrlRepository,
         private readonly config: ConfigService,
     ) {}
 
@@ -23,7 +23,7 @@ export class ShortenUrlUsecase {
         urlRequest: ShortenUrlRequestDto,
     ): Promise<ShortedUrlResponseDto> {
         const code = await this.generateShortCode();
-        const urlShortenerEntity = await this.urlShortenerRepository.save(
+        const urlShortenerEntity = await this.urlRepository.save(
             UrlShortenerTransformer.toEntity({
                 ...urlRequest,
                 code,
@@ -44,7 +44,7 @@ export class ShortenUrlUsecase {
 
         while (attempts < maxAttempts) {
             const shortCode = UrlEntity.generateShortCode();
-            const existingUrl = await this.urlShortenerRepository.findOne({
+            const existingUrl = await this.urlRepository.findOne({
                 where: {
                     code: shortCode,
                 },
