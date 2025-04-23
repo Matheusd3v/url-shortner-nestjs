@@ -1,6 +1,6 @@
 {
   "moduleFileExtensions": ["js", "json", "ts"],
-  "rootDir": ".",
+  "rootDir": "../",
   "testEnvironment": "node",
   "testRegex": ".e2e-spec.ts$",
   "transform": {
@@ -12,6 +12,6 @@
 		"^@app/(.*)$": "<rootDir>/src/app/$1/",
 		"^@modules/(.*)$": "<rootDir>/src/app/modules/$1/",
 		"^@shared/(.*)$": "<rootDir>/src/app/shared/$1/",
-    "@infra/*": ["src/infra/*"]
+    "^@infra/(.*)$": "<rootDir>/src/infra/$1/"
 	}
 }
