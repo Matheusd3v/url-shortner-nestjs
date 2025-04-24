@@ -19,6 +19,8 @@ API REST para encurtamento de URLs com autenticação de usuários, redirecionam
 - ✅ CI com GitHub Actions
 - ⚙️ Pre-commit / pre-push hooks com lint e format
 - 🧾 Soft delete com `deletedAt`
+- 🔭 Observabilidade com OpenTelemetry + Honeycomb (desabilitável por env)
+
 
 ---
 
@@ -102,6 +104,17 @@ Os testes foram configurados para que:
 - O banco é excluído ao final
 
 ---
+
+## 🔭 Observabilidade
+
+![Alt Opentelemetry logo](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5L3WOqREqLtH-tSyMV-AgtjpvPqxqN7MHKQ&s)
+
+
+A aplicação está integrada com [OpenTelemetry](https://opentelemetry.io/) para rastreamento de requisições (traces), com visualização via [Honeycomb](https://www.honeycomb.io/).
+
+Se as variáveis de ambiente não estiverem configuradas, a observabilidade será desativada automaticamente — sem impactar a execução da aplicação.
+
+Exemplo de variáveis disponíveis no arquivo `.env.example`.
 
 ## 📦 Releases (Git Tags)
 
