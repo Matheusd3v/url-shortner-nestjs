@@ -16,12 +16,18 @@ import { GetUserAuth } from '@root/src/app/shared/decorators/user-auth.decorator
 import { AuthGuard } from '@nestjs/passport';
 import { UserEntity } from '../../users/entities/user.entity';
 import { ListUserUrlsUseCase } from '../usecases/list-user-urls.usecase';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+    ApiBearerAuth,
+    ApiOperation,
+    ApiResponse,
+    ApiTags,
+} from '@nestjs/swagger';
 import { SoftDeleteUserUrlUseCase } from '../usecases/soft-delete-user-url.usecase';
 import { UpdateUrlDestinationDto } from '../dtos/update-url-destination.dto';
 import { UpdateUrlDestinationUseCase } from '../usecases/update-url-destination.usecase';
 
 @ApiTags('User Url')
+@ApiBearerAuth()
 @Controller('users')
 export class UrlController {
     constructor(
@@ -36,6 +42,7 @@ export class UrlController {
         status: HttpStatus.OK,
         type: UserUrlsResponseDto,
     })
+    @ApiOperation({ summary: 'List user urls' })
     async listUrls(
         @Param('userUuid', new ParseUUIDPipe({ version: '4' }))
         userUuid: string,
@@ -54,6 +61,7 @@ export class UrlController {
         status: HttpStatus.NO_CONTENT,
         description: 'Empty body',
     })
+    @ApiOperation({ summary: 'Delete user url' })
     @HttpCode(HttpStatus.NO_CONTENT)
     async softDeleteUrl(
         @Param('userUuid', new ParseUUIDPipe({ version: '4' }))
@@ -74,6 +82,7 @@ export class UrlController {
         status: HttpStatus.NO_CONTENT,
         description: 'Empty body',
     })
+    @ApiOperation({ summary: 'Update user url' })
     @HttpCode(HttpStatus.NO_CONTENT)
     async updateUrlDestination(
         @Param('userUuid', new ParseUUIDPipe({ version: '4' }))

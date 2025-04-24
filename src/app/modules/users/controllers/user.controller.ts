@@ -1,5 +1,5 @@
 import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { RegisterUserRequestDto } from '../dtos/register-user-request.dto';
 import { RegisterUserUseCase } from '../usecases/register-user.usecase';
 import { GenerateAccessTokenUseCase } from '../../auth/usecases/generate-acces-token.usecase';
@@ -18,6 +18,7 @@ export class UserController {
         status: HttpStatus.CREATED,
         type: RegisterUserResponseDto,
     })
+    @ApiOperation({ summary: 'Create new users' })
     async register(@Body() body: RegisterUserRequestDto) {
         const user = await this.registerUserUseCase.execute(body);
         const token = await this.generateAccesstokenUseCase.execute({

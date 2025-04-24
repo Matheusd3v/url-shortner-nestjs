@@ -9,7 +9,7 @@ import {
     UseGuards,
 } from '@nestjs/common';
 import { ShortenUrlRequestDto } from '../dtos/shorten-url-request.dto';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ShortedUrlResponseDto } from '../dtos/shorted-url-response.dto';
 import { ShortenUrlUsecase } from '../usecases/shorten-url.usecase';
 import { FindOriginalUrlUseCase } from '../usecases/find-original-url.usecase';
@@ -32,6 +32,7 @@ export class UrlShortenerController {
         status: HttpStatus.CREATED,
         type: ShortedUrlResponseDto,
     })
+    @ApiOperation({ summary: 'Shorten the url' })
     async shortenUrl(
         @Body() body: ShortenUrlRequestDto,
         @GetUserAuth() user?: UserEntity,
@@ -48,6 +49,7 @@ export class UrlShortenerController {
         status: HttpStatus.MOVED_PERMANENTLY,
         description: 'Moves client to original url',
     })
+    @ApiOperation({ summary: 'Redirect the url' })
     async redirectToOriginalUrl(
         @Param('code') code: string,
         @Res() res: Response,
