@@ -5,6 +5,9 @@
   "author": "Matheus Gomes",
   "private": true,
   "license": "UNLICENSED",
+  "engines": {
+    "node": "22.14"
+  },
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -20,7 +23,10 @@
     "test:e2e": "NODE_OPTIONS=--no-warnings jest --config ./test/jest-e2e.json -w 2 --verbose",
     "migration:create": "npx prisma migrate dev --create-only --name",
     "migration:deploy": "npx prisma migrate deploy",
-    "prisma:generate": "npx prisma generate"
+    "prisma:generate": "npx prisma generate",
+    "start:docker": "npx prisma migrate deploy && dumb-init node dist/main",
+    "start:docker:dev": "npx prisma generate && npx prisma migrate deploy && npm run start:dev",
+    "build:docker": "npm run prisma:generate && nest build"
   },
   "dependencies": {
     "@nestjs-cls/transactional": "^2.7.0",
