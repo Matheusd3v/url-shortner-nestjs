@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: api-nodejs
+  name: api-nodejs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-nodejs
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 2
+  template:
+    metadata:
+      labels:
+        app: api-nodejs
+    spec:
+      initContainers:
+        - name: migrate
+          image: matheusgomesa/url-shortened:latest
+          command:
+            - sh
+            - -c
+            - |
+              echo "🔄 Waiting for database to be ready..."
+              until cat .env && npx prisma migrate deploy; do
+                echo "❌ Migration failed, retrying in 3s..."
+                sleep 3
+              done
+          envFrom:
+            - secretRef:
+                name: api-url-shortener-secret
+          resources:
+            limits:
+              cpu: 0.2
+              memory: 100Mi
+            requests:
+              cpu: 0.1
+              memory: 50Mi
+      containers:
+        - image: matheusgomesa/url-shortened:latest
+          name: node-api
+          envFrom:
+            - secretRef:
+                name: api-url-shortener-secret
+          resources:
+            limits:
+              cpu: 0.7
+              memory: 650Mi
+            requests:
+              cpu: 0.3
+              memory: 350Mi
+          livenessProbe:
+            httpGet:
+              path: /api
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /api
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
