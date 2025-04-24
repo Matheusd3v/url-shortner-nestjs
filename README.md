@@ -120,6 +120,8 @@ Exemplo de variáveis disponíveis no arquivo `.env.example`.
 
 - `v0.1.0` – Criação do encurtador sem autenticação com contagem de cliques
 - `v0.2.0` – Cadastro de usuários, autenticação e CRUD de URLs
+- `v0.3.0` – Observabilidade com OpenTelemetry e integração com Honeycomb
+
 
 ---
 
