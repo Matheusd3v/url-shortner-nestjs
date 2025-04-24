@@ -4,10 +4,17 @@ API REST para encurtamento de URLs com autenticação de usuários, redirecionam
 
 ---
 
+## 🌍 Deploy em Produção
+
+> Acesse: https://meuencurtador.cloudprovider.com *(exemplo – substitua pelo link real se tiver feito)*
+
+---
+
 ## ✨ Features
 
 - 🔐 Autenticação com JWT
 - 🔗 Encurtamento de URL com e sem login
+- 🔡 Geração de códigos curtos com até 6 caracteres
 - 👤 Cadastro e login de usuários
 - 🔁 Redirecionamento com contagem de cliques
 - 📝 Listagem, edição e exclusão lógica de URLs do usuário
@@ -20,7 +27,7 @@ API REST para encurtamento de URLs com autenticação de usuários, redirecionam
 - ⚙️ Pre-commit / pre-push hooks com lint e format
 - 🧾 Soft delete com `deletedAt`
 - 🔭 Observabilidade com OpenTelemetry + Honeycomb (desabilitável por env)
-
+- 🧠 API aderente ao nível 2 da maturidade REST
 
 ---
 
@@ -32,7 +39,7 @@ API REST para encurtamento de URLs com autenticação de usuários, redirecionam
 
 ## 🛠️ Tecnologias
 
-- Node.js
+- Node.js (v22.14)
 - NestJS
 - Prisma (PostgreSQL)
 - Swagger
@@ -47,7 +54,7 @@ API REST para encurtamento de URLs com autenticação de usuários, redirecionam
 
 ### Pré-requisitos
 
-- Node.js (v22.14)
+- Node.js (v22.14) — ⚠️ Outras versões podem causar incompatibilidades
 - Docker + Docker Compose
 - Npm
 - Nvm
@@ -59,28 +66,28 @@ API REST para encurtamento de URLs com autenticação de usuários, redirecionam
 docker-compose up --build
 ```
 
-Após o warm-up, a API estará disponível na porta `3000` e o banco na `5432`.
+A API estará disponível na porta `3000` e o banco na `5432`.
 
 ---
 
-### Ambiente local
+### Ambiente local (sem Docker)
 
-Use a mesma versão node do projeto
+Use a versão correta do Node:
 ```bash
 nvm use
 ```
 
-Instale as dependencias
+Instale as dependências:
 ```bash
 npm ci
 ```
 
-Atualize o prisma
+Atualize o Prisma:
 ```bash
 npm run prisma:generate
 ```
 
-Execute o projeto
+Execute o projeto:
 ```bash
 npm run start
 ```
@@ -95,42 +102,60 @@ npm run test:e2e
 
 > ⚠️ Para executar os testes de integração:
 > - O `docker-compose` precisa estar rodando
-> - O comando precisa ser executado localmente (fora do container)
+> - O comando deve ser executado localmente (fora do container)
 
-Os testes foram configurados para que:
-- A cada suíte de testes, um banco com nome único é criado
-- As migrations são aplicadas
-- Os testes rodam de forma totalmente isolada
-- O banco é excluído ao final
+Cada suíte de testes:
+- Cria um banco de dados único
+- Executa as migrations
+- Roda os testes de forma isolada
+- Remove o banco após a execução
 
 ---
 
 ## 🔭 Observabilidade
-
 ![Alt Opentelemetry logo](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5L3WOqREqLtH-tSyMV-AgtjpvPqxqN7MHKQ&s)
-
 
 A aplicação está integrada com [OpenTelemetry](https://opentelemetry.io/) para rastreamento de requisições (traces), com visualização via [Honeycomb](https://www.honeycomb.io/).
 
-Se as variáveis de ambiente não estiverem configuradas, a observabilidade será desativada automaticamente — sem impactar a execução da aplicação.
+### Configuração
 
-Exemplo de variáveis disponíveis no arquivo `.env.example`.
+Adicione no `.env`:
+
+```env
+OTEL_SERVICE_NAME=url-shortener-api
+OTEL_EXPORTER_OTLP_ENDPOINT=https://api.honeycomb.io
+OTEL_EXPORTER_OTLP_HEADERS=x-honeycomb-team=SEU_TOKEN,x-honeycomb-dataset=nome-do-dataset
+```
+
+A observabilidade será **desativada automaticamente** se as variáveis de ambiente não estiverem presentes.
+
+---
 
 ## 📦 Releases (Git Tags)
 
 - `v0.1.0` – Criação do encurtador sem autenticação com contagem de cliques
 - `v0.2.0` – Cadastro de usuários, autenticação e CRUD de URLs
 - `v0.3.0` – Observabilidade com OpenTelemetry e integração com Honeycomb
+- `v0.4.0` – Correção de login e estrutura para uso com Kubernetes
 
+---
+
+## 🐋 Kubernetes
+
+Na pasta `k8s`, foram incluídos arquivos para deploy do projeto com Kubernetes.
+
+- `start.sh`: Inicializa o projeto em ambiente local com Minikube ou Kind
+- `delete.sh`: Remove toda a estrutura criada
+- Inclui deployment da aplicação e statefulset para o PostgreSQL
 
 ---
 
 ## 📈 Escalabilidade e desafios
 
-Caso o sistema precise escalar horizontalmente, os principais desafios serão:
+Para escalar horizontalmente, os principais desafios incluem:
 
 - Processar contagem de cliques via eventos assíncronos
-- Utilizar cache (ex: Redis) na rota de redirecionamento
+- Usar cache (ex: Redis) na rota de redirecionamento
 - Utilizar filas para desacoplar a contagem de acessos
 - Tornar o sistema multi-tenant por separação de domínios
 
@@ -139,7 +164,6 @@ Caso o sistema precise escalar horizontalmente, os principais desafios serão:
 ## 🧠 Pontos de melhoria futuros
 
 - Adicionar cache com Redis
-- Rastreabilidade (OpenTelemetry)
 - Deploy com Terraform + Kubernetes
 
 ---
