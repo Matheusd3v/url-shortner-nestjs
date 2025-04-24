@@ -1,98 +1,149 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🚀 URL Shortener API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API REST para encurtamento de URLs com autenticação de usuários, redirecionamento com contagem de cliques, CRUD completo de URLs, validações e testes de integração. Projeto desenvolvido como parte de um teste técnico.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## ✨ Features
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- 🔐 Autenticação com JWT
+- 🔗 Encurtamento de URL com e sem login
+- 👤 Cadastro e login de usuários
+- 🔁 Redirecionamento com contagem de cliques
+- 📝 Listagem, edição e exclusão lógica de URLs do usuário
+- 🧪 Testes de integração automatizados
+- 📦 Docker + Docker Compose
+- 🛂 Validações de entrada
+- 📃 Documentação Swagger
+- 🧱 Git tags por release
+- ✅ CI com GitHub Actions
+- ⚙️ Pre-commit / pre-push hooks com lint e format
+- 🧾 Soft delete com `deletedAt`
+- 🔭 Observabilidade com OpenTelemetry + Honeycomb (desabilitável por env)
 
-## Project setup
 
-```bash
-$ npm install
-```
+---
 
-## Compile and run the project
+## 📚 Documentação da API
 
-```bash
-# development
-$ npm run start
+> Acesse: [http://localhost:3000/api/doc](http://localhost:3000/api/doc)
 
-# watch mode
-$ npm run start:dev
+---
 
-# production mode
-$ npm run start:prod
-```
+## 🛠️ Tecnologias
 
-## Run tests
+- Node.js
+- NestJS
+- Prisma (PostgreSQL)
+- Swagger
+- Docker + Docker Compose
+- Jest + Supertest
+- Lefthook + commit linter
+- GitHub Actions
 
-```bash
-# unit tests
-$ npm run test
+---
 
-# e2e tests
-$ npm run test:e2e
+## 🚀 Como rodar o projeto localmente
 
-# test coverage
-$ npm run test:cov
-```
+### Pré-requisitos
 
-## Deployment
+- Node.js (v22.14)
+- Docker + Docker Compose
+- Npm
+- Nvm
+- Arquivo `.env` criado com base no `.env.example`
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### Ambiente com Docker (Recomendado)
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+docker-compose up --build
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Após o warm-up, a API estará disponível na porta `3000` e o banco na `5432`.
 
-## Resources
+---
 
-Check out a few resources that may come in handy when working with NestJS:
+### Ambiente local
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Use a mesma versão node do projeto
+```bash
+nvm use
+```
 
-## Support
+Instale as dependencias
+```bash
+npm ci
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Atualize o prisma
+```bash
+npm run prisma:generate
+```
 
-## Stay in touch
+Execute o projeto
+```bash
+npm run start
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+---
 
-## License
+## 🧪 Rodando os testes
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+```bash
+npm run test:e2e
+```
+
+> ⚠️ Para executar os testes de integração:
+> - O `docker-compose` precisa estar rodando
+> - O comando precisa ser executado localmente (fora do container)
+
+Os testes foram configurados para que:
+- A cada suíte de testes, um banco com nome único é criado
+- As migrations são aplicadas
+- Os testes rodam de forma totalmente isolada
+- O banco é excluído ao final
+
+---
+
+## 🔭 Observabilidade
+
+![Alt Opentelemetry logo](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5L3WOqREqLtH-tSyMV-AgtjpvPqxqN7MHKQ&s)
+
+
+A aplicação está integrada com [OpenTelemetry](https://opentelemetry.io/) para rastreamento de requisições (traces), com visualização via [Honeycomb](https://www.honeycomb.io/).
+
+Se as variáveis de ambiente não estiverem configuradas, a observabilidade será desativada automaticamente — sem impactar a execução da aplicação.
+
+Exemplo de variáveis disponíveis no arquivo `.env.example`.
+
+## 📦 Releases (Git Tags)
+
+- `v0.1.0` – Criação do encurtador sem autenticação com contagem de cliques
+- `v0.2.0` – Cadastro de usuários, autenticação e CRUD de URLs
+- `v0.3.0` – Observabilidade com OpenTelemetry e integração com Honeycomb
+
+
+---
+
+## 📈 Escalabilidade e desafios
+
+Caso o sistema precise escalar horizontalmente, os principais desafios serão:
+
+- Processar contagem de cliques via eventos assíncronos
+- Utilizar cache (ex: Redis) na rota de redirecionamento
+- Utilizar filas para desacoplar a contagem de acessos
+- Tornar o sistema multi-tenant por separação de domínios
+
+---
+
+## 🧠 Pontos de melhoria futuros
+
+- Adicionar cache com Redis
+- Rastreabilidade (OpenTelemetry)
+- Deploy com Terraform + Kubernetes
+
+---
+
+## 🙋‍♂️ Autor
+
+[LinkedIn - Matheus Gomes](https://www.linkedin.com/in/matheus-gomes-de-almeida96/)

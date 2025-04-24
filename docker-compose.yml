@@ -18,7 +18,7 @@ services:
       - .env
     depends_on:
       - postgres
-    command: sh -c "npm run start:dev"
+    command: sh -c "npm run start:docker:dev"
 
   postgres:
     container_name: shortener_db

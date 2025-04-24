@@ -1,6 +1,5 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { ShortenerModule } from './app/modules/shortener/shortener.module';
 import { ClsPluginTransactional } from '@nestjs-cls/transactional';
@@ -11,6 +10,7 @@ import { PrismaPGService } from './infra/database/sql/prisma/prisma-pg.service';
 import { SecurityModule } from './infra/security/security.module';
 import { UserModule } from './app/modules/users/user.module';
 import { AuthModule } from './app/modules/auth/auth.module';
+import { LoggerMiddleware } from './infra/opentelemetry/logger.middleware';
 
 @Module({
     imports: [
@@ -34,6 +34,10 @@ import { AuthModule } from './app/modules/auth/auth.module';
         AuthModule,
     ],
     controllers: [AppController],
-    providers: [AppService],
+    providers: [],
 })
-export class AppModule {}
+export class AppModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer.apply(LoggerMiddleware).forRoutes('*');
+    }
+}

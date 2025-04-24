@@ -1,10 +1,13 @@
 {
   "name": "url-shortener",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "",
   "author": "Matheus Gomes",
   "private": true,
   "license": "UNLICENSED",
+  "engines": {
+    "node": "22.14"
+  },
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -20,7 +23,10 @@
     "test:e2e": "NODE_OPTIONS=--no-warnings jest --config ./test/jest-e2e.json -w 2 --verbose",
     "migration:create": "npx prisma migrate dev --create-only --name",
     "migration:deploy": "npx prisma migrate deploy",
-    "prisma:generate": "npx prisma generate"
+    "prisma:generate": "npx prisma generate",
+    "start:docker": "NODE_OPTIONS='--require @opentelemetry/auto-instrumentations-node/register' npx prisma migrate deploy && dumb-init node dist/main",
+    "start:docker:dev": "NODE_OPTIONS='--require @opentelemetry/auto-instrumentations-node/register' npx prisma generate && npx prisma migrate deploy && npm run start:dev",
+    "build:docker": "npm run prisma:generate && nest build"
   },
   "dependencies": {
     "@nestjs-cls/transactional": "^2.7.0",
@@ -32,7 +38,15 @@
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.1.5",
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/auto-instrumentations-node": "^0.58.0",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.200.0",
+    "@opentelemetry/instrumentation-express": "^0.48.1",
+    "@opentelemetry/instrumentation-fs": "^0.20.0",
+    "@opentelemetry/instrumentation-http": "^0.200.0",
+    "@opentelemetry/sdk-node": "^0.200.0",
     "@prisma/client": "^6.6.0",
+    "@prisma/instrumentation": "^6.6.0",
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",

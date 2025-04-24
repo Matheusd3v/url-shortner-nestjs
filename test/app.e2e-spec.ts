@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { HttpStatus, INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { App } from 'supertest/types';
 import { AppModule } from './../src/app.module';
@@ -16,10 +16,10 @@ describe('AppController (e2e)', () => {
         await app.init();
     });
 
-    it('/api (GET)', () => {
-        return request(app.getHttpServer())
-            .get('/api')
-            .expect(200)
-            .expect('Hello World!');
+    it('/api (GET)', async () => {
+        const response = await request(app.getHttpServer()).get('/api');
+
+        expect(response.statusCode).toBe(HttpStatus.OK);
+        expect(response.body).toHaveProperty('message');
     });
 });
