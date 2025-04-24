@@ -11,7 +11,7 @@ on:
       - develop
 
 env:
-  DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test?schema=public
+  DATABASE_URL: postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@localhost:5432/test?schema=public
 
 jobs:
   setup:
