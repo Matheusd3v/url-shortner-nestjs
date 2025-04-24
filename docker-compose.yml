@@ -5,7 +5,7 @@ services:
     container_name: api-shortener
     build: 
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     volumes:
       - ./src:/app/src
       - ./package.json:/app/package.json
@@ -18,7 +18,7 @@ services:
       - .env
     depends_on:
       - postgres
-    command: sh -c "npm run start:docker:dev"
+    command: sh -c "npm run start:docker"
 
   postgres:
     container_name: shortener_db
