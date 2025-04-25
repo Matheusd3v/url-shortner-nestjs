@@ -4,12 +4,6 @@ API REST para encurtamento de URLs com autenticação de usuários, redirecionam
 
 ---
 
-## 🌍 Deploy em Produção
-
-> Acesse: https://meuencurtador.cloudprovider.com *(exemplo – substitua pelo link real se tiver feito)*
-
----
-
 ## ✨ Features
 
 - 🔐 Autenticação com JWT
